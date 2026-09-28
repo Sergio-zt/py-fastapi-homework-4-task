@@ -57,7 +57,7 @@ async def create_user_profile(
         if not is_admin:
             raise HTTPException(status_code=403, detail="You don't have permission to edit this profile.")
 
-    stmt = select(UserModel).where(UserModel.id == user_id, UserModel.is_active == True)
+    stmt = select(UserModel).where(UserModel.id == user_id, UserModel.is_active)
     result = await db.execute(stmt)
     user = result.scalars().first()
 
