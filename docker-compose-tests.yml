@@ -40,7 +40,7 @@ services:
       - theater_network_test
 
   minio:
-    image: minio/minio:latest
+    image: cgr.dev/chainguard/minio:latest
     container_name: minio-theater-test
     command: server --console-address ":9001" /data
     ports:
@@ -55,10 +55,10 @@ services:
     volumes:
       - minio_data_test:/data
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
-      interval: 10s
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/9000'"]
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
     networks:
       - theater_network_test
 
